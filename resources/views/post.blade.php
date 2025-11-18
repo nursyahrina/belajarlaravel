@@ -46,7 +46,7 @@ URL: https://flowbite.com/docs/components/typography/
   <main class="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white dark:bg-gray-900 antialiased">
     <div class="flex justify-between px-4 mx-auto max-w-7xl ">
         <article class="mx-auto w-full max-w-4xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
-            <a href="/posts/{{ $post->slug }}" class="my-4 inline-flex items-center text-sm font-medium text-primary-600 dark:text-primary-500 no-underline hover:underline">
+            <a href="/posts" class="my-4 inline-flex items-center text-sm font-medium text-primary-600 dark:text-primary-500 no-underline hover:underline">
               <svg class="mr-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>  
                Back to all posts.
             </a>  
@@ -61,7 +61,6 @@ URL: https://flowbite.com/docs/components/typography/
                                     ['bg' => 'bg-orange-50', 'text' => 'text-orange-700', 'inset-ring' => 'inset-ring-orange-100', 'hover' => 'hover:bg-orange-100'],
                                     ['bg' => 'bg-yellow-50', 'text' => 'text-yellow-700', 'inset-ring' => 'inset-ring-yellow-100', 'hover' => 'hover:bg-yellow-100'],
                                     ['bg' => 'bg-lime-50', 'text' => 'text-lime-700', 'inset-ring' => 'inset-ring-lime-100', 'hover' => 'hover:bg-lime-100'],
-                                    ['bg' => 'bg-teal-50', 'text' => 'text-teal-700', 'inset-ring' => 'inset-ring-teal-100', 'hover' => 'hover:bg-teal-100'],
                                     ['bg' => 'bg-green-50', 'text' => 'text-green-700', 'inset-ring' => 'inset-ring-green-100', 'hover' => 'hover:bg-green-100'],
                                     ['bg' => 'bg-blue-50', 'text' => 'text-blue-700', 'inset-ring' => 'inset-ring-blue-100', 'hover' => 'hover:bg-blue-100'],
                                     ['bg' => 'bg-indigo-50', 'text' => 'text-indigo-700', 'inset-ring' => 'inset-ring-indigo-100', 'hover' => 'hover:bg-indigo-100'],
@@ -75,11 +74,11 @@ URL: https://flowbite.com/docs/components/typography/
                                 $color = $colors[$index];
                             @endphp
 
-                            <a href="/categories/{{ $post->category->slug }}" class="block w-fit rounded-md px-2 py-1 my-2 text-xs font-medium transition-colors duration-150 inset-ring
+                            <a href="/posts?category={{ $post->category->slug }}" class="block w-fit rounded-md px-2 py-1 my-2 text-xs font-medium transition-colors duration-150 inset-ring
                                           {{ $color['bg'] }} {{ $color['text'] }} {{ $color['hover'] }}">
                               {{ $post->category->name }}
                             </a>
-                            <a href="/posts/{{ $post->author->username }}" rel="author" class="text-xl font-bold text-gray-900 dark:text-white">{{ $post->author->name }}</a>
+                            <a href="/posts?author={{ $post->author->username }}" rel="author" class="text-xl font-bold text-gray-900 dark:text-white">{{ $post->author->name }}</a>
                             <p class="text-base text-gray-500 dark:text-gray-400">{{ $post->created_at->diffForHumans() }}</p>
                         </div>
                     </div>

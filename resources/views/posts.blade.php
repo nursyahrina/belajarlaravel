@@ -1,7 +1,14 @@
 <x-layout :title="$title">
 
   <div class="py-4 px-4 mx-auto max-w-7xl lg:px-6"> 
-      <form class="mb-8 max-w-md mx-auto">   
+      <form class="mb-8 max-w-md mx-auto">
+					@if (request('category'))
+						<input type="hidden" name="category" value="{{ request('category') }}" />
+					@endif
+
+					@if (request('author'))
+						<input type="hidden" name="author" value="{{ request('author') }}" />
+					@endif   
           <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
           <div class="relative">
               <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -14,8 +21,9 @@
           </div>
       </form>
 
-      <div class="grid gap-8 lg:grid-cols-3 md:grid-cols-2">
-          @foreach ($posts as $post)
+			{{ $posts->links() }}
+      <div class="my-4 grid gap-8 lg:grid-cols-3 md:grid-cols-2">
+          @forelse ($posts as $post)
           <article class="grid content-between p-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
               <div class="flex justify-between items-center mb-5 text-gray-500">
                   @php
@@ -24,7 +32,6 @@
                           ['bg' => 'bg-orange-50', 'text' => 'text-orange-700', 'inset-ring' => 'inset-ring-orange-100', 'hover' => 'hover:bg-orange-100'],
                           ['bg' => 'bg-yellow-50', 'text' => 'text-yellow-700', 'inset-ring' => 'inset-ring-yellow-100', 'hover' => 'hover:bg-yellow-100'],
                           ['bg' => 'bg-lime-50', 'text' => 'text-lime-700', 'inset-ring' => 'inset-ring-lime-100', 'hover' => 'hover:bg-lime-100'],
-                          ['bg' => 'bg-teal-50', 'text' => 'text-teal-700', 'inset-ring' => 'inset-ring-teal-100', 'hover' => 'hover:bg-teal-100'],
                           ['bg' => 'bg-green-50', 'text' => 'text-green-700', 'inset-ring' => 'inset-ring-green-100', 'hover' => 'hover:bg-green-100'],
                           ['bg' => 'bg-blue-50', 'text' => 'text-blue-700', 'inset-ring' => 'inset-ring-blue-100', 'hover' => 'hover:bg-blue-100'],
                           ['bg' => 'bg-indigo-50', 'text' => 'text-indigo-700', 'inset-ring' => 'inset-ring-indigo-100', 'hover' => 'hover:bg-indigo-100'],
@@ -38,16 +45,16 @@
                       $color = $colors[$index];
                   @endphp
 
-                  <a href="/categories/{{ $post->category->slug }}" class="inline-flex items-center gap-1.5 rounded-md px-2 py-1 my-2 text-xs font-medium transition-colors duration-150 inset-ring
+                  <a href="/posts?category={{ $post->category->slug }}" class="inline-flex items-center gap-1.5 rounded-md px-2 py-1 my-2 text-xs font-medium transition-colors duration-150 inset-ring
                                 {{ $color['bg'] }} {{ $color['text'] }} {{ $color['hover'] }}">
                     {{ $post->category->name }}
                   </a>
                   <span class="text-sm">{{ $post->created_at->diffForHumans() }}</span>
               </div>
-              <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><a href="#">{{ $post->title }}</a></h2>
+              <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><a href="/posts/{{ $post->slug }}">{{ $post->title }}</a></h2>
               <p class="mb-5 font-light text-gray-500 dark:text-gray-400">{{ Str::limit($post->body, 80) }}</p>
               <div class="flex justify-between items-center">
-                  <a href="/authors/{{ $post->author->username }}" class="hover:underline">
+                  <a href="/posts?author={{ $post->author->username }}" class="hover:underline">
                     <div class="flex items-center space-x-4">
                         <img class="w-7 h-7 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png" alt="{{ $post->author->name }}" />
                         <span class="font-medium text-sm dark:text-white">
@@ -61,7 +68,15 @@
                   </a>
               </div>
           </article> 
-          @endforeach
+					@empty
+						<div>
+							<p class="font-semibold text-2xl my-4">Article not found!</p>
+							<a href="/posts" class="my-4 inline-flex items-center text-sm font-medium text-primary-600 dark:text-primary-500 no-underline hover:underline">
+								<svg class="mr-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>  
+								Back to all posts.
+							</a>
+						</div>
+          @endforelse
       </div>  
   </div>
 
